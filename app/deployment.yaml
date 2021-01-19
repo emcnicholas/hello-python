@@ -7,10 +7,9 @@ spec:
     app: hello-python
   ports:
   - protocol: "TCP"
-    port: 6000
+    port: 36000
     targetPort: 5000
   type: LoadBalancer
-
 
 ---
 apiVersion: apps/v1
@@ -18,7 +17,10 @@ kind: Deployment
 metadata:
   name: hello-python
 spec:
-  replicas: 4
+  selector:
+    matchLabels:
+      app: hello-python
+  replicas: 1
   template:
     metadata:
       labels:
@@ -26,7 +28,7 @@ spec:
     spec:
       containers:
       - name: hello-python
-        image: hello-python:latest
+        image: emcnicholas/hello-python:latest
         imagePullPolicy: Never
         ports:
         - containerPort: 5000
